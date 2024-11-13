@@ -1,0 +1,57 @@
+{% extends 'store/main.html' %}
+{% load static %}
+{% block content %}
+
+<body>
+
+    <header>
+        <h1>Your Cart {{order.get_cart_items}}</h1>
+    </header>
+
+    <div class="cart-container">
+        <table class="cart-table">
+
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr>
+                    <td>
+                        <div class="item">
+                            <img src="{{item.product.imageURL}}" alt="product">
+                            <div class="item-details">
+                                <h2>{{item.product.name}}</h2>
+
+                            </div>
+                        </div>
+                    </td>
+                    <td>Rs{{item.product.price}}</td>
+                    <td><div class="quantity">
+                        <p class="quantity">{{item.quantity}}</p>
+                        <img data-product="{{item.product.id}}" data-action="add" class="chg-quantity update-cart" src="{% static  'img/arrow-up.png' %}">
+                
+                        <img data-product="{{item.product.id}}" data-action="remove" class="chg-quantity update-cart" src="{% static  'img/down.png' %}">
+                    </div></td>
+                    <td>{{item.get_total}}</td>
+                </tr>
+                {%endfor%}
+            </tbody>
+
+        </table>
+
+        <div class="summary">
+            <p>Subtotal: {{order.get_cart_total|floatformat:2}}</p>
+            <a href="{% url 'checkout' %}">
+                <button class="checkout-btn">Check out</button>
+            </a>
+
+        </div>
+    </div>
+</body>
+{% endblock content %}
